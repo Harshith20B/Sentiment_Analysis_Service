@@ -1,5 +1,4 @@
-// In your backend models (e.g., Service.js)
-const mongoose = require('mongoose');
+import mongoose from 'mongoose';
 
 const serviceSchema = new mongoose.Schema({
   name: { type: String, required: true },
@@ -7,4 +6,4 @@ const serviceSchema = new mongoose.Schema({
 
 const Service = mongoose.model('Service', serviceSchema);
 
-module.exports = Service;
+export default Service;

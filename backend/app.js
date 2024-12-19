@@ -1,9 +1,10 @@
-const express = require('express');
-const mongoose = require('mongoose');
-const cors = require('cors');
-const dotenv = require('dotenv');
-const platformsRoutes = require('./routes/platforms');
-const serviceRoutes = require('./routes/services');
+import express from 'express';
+import mongoose from 'mongoose';
+import cors from 'cors';
+import dotenv from 'dotenv';
+import platformsRoutes from './routes/platforms.js';  // Import with .js extension
+import serviceRoutes from './routes/services.js';    // Import with .js extension
+
 dotenv.config();
 
 const app = express();
@@ -21,6 +22,7 @@ mongoose
 // Routes
 app.use('/api/platforms', platformsRoutes);
 app.use('/api/services', serviceRoutes);
+
 app.listen(PORT, () => {
   console.log(`Server running on http://localhost:${PORT}`);
 });

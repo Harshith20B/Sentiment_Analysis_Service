@@ -1,7 +1,7 @@
-// In your backend routes (e.g., services.js)
-const express = require('express');
+import express from 'express';
+import Service from '../models/Service.js'; // Assuming you have a Service model
+
 const router = express.Router();
-const Service = require('../models/Service'); // Assuming you have a Service model
 
 // Get all services
 router.get('/', async (req, res) => {
@@ -13,4 +13,4 @@ router.get('/', async (req, res) => {
   }
 });
 
-module.exports = router;
+export default router; // Export the router as the default export
