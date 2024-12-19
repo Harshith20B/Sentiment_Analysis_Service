@@ -146,7 +146,7 @@ const PlatformDetails = () => {
   );
 };
 
-// export default PlatformDetails;
+ export default PlatformDetails;
 
 
 // import React, { useState, useEffect } from 'react';
