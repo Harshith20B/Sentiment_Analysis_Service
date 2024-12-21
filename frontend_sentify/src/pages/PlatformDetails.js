@@ -1,13 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useParams } from 'react-router-dom';
-import { Card, CardHeader, CardBody } from '@nextui-org/card';
 import {
   TrendingUp,
   TrendingDown,
   MinusCircle,
   Newspaper,
-  MessageCircle,
   BarChart2,
   AlertCircle,
 } from 'lucide-react';
@@ -43,80 +41,96 @@ const PlatformDetails = () => {
 
   if (error) {
     return (
-      <Card className="mx-auto max-w-2xl mt-8 bg-red-500/10 border-red-500/20">
-        <CardBody className="flex items-center gap-4 p-6">
+      <div className="mx-auto max-w-2xl mt-8 bg-red-500/10 dark:bg-red-500/5 
+                    border border-red-500/20 rounded-lg">
+        <div className="flex items-center gap-4 p-6">
           <AlertCircle className="w-8 h-8 text-red-400" />
           <div>
             <h2 className="text-xl font-bold text-red-400 mb-2">Error Loading Platform Data</h2>
             <p className="text-red-300">{error}</p>
           </div>
-        </CardBody>
-      </Card>
+        </div>
+      </div>
     );
   }
 
   const { platform, news, reviews } = platformData;
 
   const getSentimentColor = (sentiment) => {
-    if (sentiment > 0.3) return 'text-green-400';
-    if (sentiment < -0.3) return 'text-red-400';
-    return 'text-yellow-400';
+    if (sentiment > 0.3) return 'text-green-600 dark:text-green-400';
+    if (sentiment < -0.3) return 'text-red-600 dark:text-red-400';
+    return 'text-yellow-600 dark:text-yellow-400';
   };
 
   const SentimentIcon = ({ sentiment, className }) => {
-    if (sentiment > 0.3) return <TrendingUp className={`${className} text-green-400`} />;
-    if (sentiment < -0.3) return <TrendingDown className={`${className} text-red-400`} />;
-    return <MinusCircle className={`${className} text-yellow-400`} />;
+    if (sentiment > 0.3) return <TrendingUp className={`${className} text-green-600 dark:text-green-400`} />;
+    if (sentiment < -0.3) return <TrendingDown className={`${className} text-red-600 dark:text-red-400`} />;
+    return <MinusCircle className={`${className} text-yellow-600 dark:text-yellow-400`} />;
   };
 
   return (
-    <div className="min-h-screen bg-gray-900 p-6">
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 p-4 sm:p-6 transition-colors duration-200">
       <div className="max-w-7xl mx-auto space-y-6">
         {/* Platform Header */}
-        <Card className="bg-gradient-to-r from-gray-800 to-gray-900 border-gray-700">
-          <CardBody className="p-8">
-            <h1 className="text-4xl font-bold text-gray-100 mb-4 bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">
+        <div className="bg-white dark:bg-gradient-to-r from-gray-800 to-gray-900 
+                      border border-gray-200 dark:border-gray-700 rounded-lg
+                      shadow-sm transition-colors duration-200">
+          <div className="p-6 sm:p-8">
+            <h1 className="text-3xl sm:text-4xl font-bold text-gray-900 dark:text-gray-100 mb-4 
+                         bg-gradient-to-r from-blue-600 to-purple-600 
+                         dark:from-blue-400 dark:to-purple-400 
+                         bg-clip-text text-transparent">
               {platform.name}
             </h1>
-            <p className="text-gray-300 text-lg">{platform.description}</p>
-          </CardBody>
-        </Card>
+            <p className="text-gray-600 dark:text-gray-300 text-lg">{platform.description}</p>
+          </div>
+        </div>
 
         {/* Overall Sentiment Dashboard */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          <Card className="bg-gray-800/50 border-gray-700">
-            <CardBody className="p-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
+          <div className="bg-white dark:bg-gray-800/50 
+                       border border-gray-200 dark:border-gray-700 
+                       rounded-lg shadow-sm transition-colors duration-200">
+            <div className="p-4 sm:p-6">
               <div className="flex items-center gap-4">
-                <BarChart2 className="w-8 h-8 text-blue-400" />
+                <BarChart2 className="w-8 h-8 text-blue-600 dark:text-blue-400" />
                 <div>
-                  <p className="text-gray-400">Total Sentiment</p>
+                  <p className="text-gray-600 dark:text-gray-400">Total Sentiment</p>
                   <p className={`text-2xl font-bold ${getSentimentColor((news.overallSentiment + reviews.overallSentiment) / 2)}`}>
                     {(((news.overallSentiment + reviews.overallSentiment) / 2) * 100).toFixed(1)}%
                   </p>
                 </div>
               </div>
-            </CardBody>
-          </Card>
-
-          {/* Repeat similar structure for News and Review sentiment */}
+            </div>
+          </div>
         </div>
 
         {/* News and Reviews Grid */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6">
           {/* News Analysis */}
-          <Card className="bg-gray-800/50 border-gray-700">
-            <CardHeader>
-              <h2 className="text-2xl text-gray-100 flex items-center gap-3">
-                <Newspaper className="w-6 h-6 text-purple-400" />
+          <div className="bg-white dark:bg-gray-800/50 
+                       border border-gray-200 dark:border-gray-700 
+                       rounded-lg shadow-sm transition-colors duration-200">
+            <div className="p-4 border-b border-gray-200 dark:border-gray-700">
+              <h2 className="text-xl sm:text-2xl text-gray-900 dark:text-gray-100 
+                           flex items-center gap-3">
+                <Newspaper className="w-6 h-6 text-purple-600 dark:text-purple-400" />
                 Top News Analysis
               </h2>
-            </CardHeader>
-            <CardBody>
+            </div>
+            <div className="p-4">
               <div className="space-y-4">
                 {news.topNews.map((article, index) => (
-                  <div key={index} className="bg-gray-700/50 p-4 rounded-lg hover:bg-gray-700 transition-colors">
-                    <h4 className="font-semibold text-blue-400 mb-2">{article.title}</h4>
-                    <p className="text-gray-300 mb-3 line-clamp-2">{article.description}</p>
+                  <div key={index} 
+                       className="bg-gray-50 dark:bg-gray-700/50 p-4 rounded-lg 
+                                hover:bg-gray-100 dark:hover:bg-gray-700 
+                                transition-colors duration-200">
+                    <h4 className="font-semibold text-blue-600 dark:text-blue-400 mb-2">
+                      {article.title}
+                    </h4>
+                    <p className="text-gray-600 dark:text-gray-300 mb-3 line-clamp-2">
+                      {article.description}
+                    </p>
                     <div className="flex items-center justify-between">
                       <div className="flex items-center gap-2">
                         <SentimentIcon sentiment={article.sentiment} className="w-4 h-4" />
@@ -128,7 +142,9 @@ const PlatformDetails = () => {
                         href={article.url}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-blue-400 hover:text-blue-300 text-sm font-medium"
+                        className="text-blue-600 dark:text-blue-400 
+                                 hover:text-blue-700 dark:hover:text-blue-300 
+                                 text-sm font-medium transition-colors duration-200"
                       >
                         Read More →
                       </a>
@@ -136,18 +152,17 @@ const PlatformDetails = () => {
                   </div>
                 ))}
               </div>
-            </CardBody>
-          </Card>
+            </div>
+          </div>
 
-          {/* Repeat similar structure for Reviews */}
+          {/* Reviews section would follow the same pattern */}
         </div>
       </div>
     </div>
   );
 };
 
- export default PlatformDetails;
-
+export default PlatformDetails;
 
 // import React, { useState, useEffect } from 'react';
 // import axios from 'axios';
