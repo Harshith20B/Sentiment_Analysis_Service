@@ -329,7 +329,9 @@ class EnhancedContentAnalyzer:
         sentiments = [item['sentiment']['score'] for item in analyzed_content]
         trend = self.predict_trend(sentiments)
         
-        return {
+        print("Summary:", summary)
+
+        res = {
             'summary': summary,
             'analyzed_content': analyzed_content,
             'trend': trend,
@@ -344,6 +346,35 @@ class EnhancedContentAnalyzer:
                 for aspect in aspects
             }
         }
+
+
+        return res
+
+
+
+# import sys
+# import json
+
+# def main(query):
+#     query = sys.argv[1]
+#     # Replace these with actual credentials
+#     reddit_credentials = {
+#         'client_id': 'dh-pJ2g7bmp5H55tgsth3w',
+#         'client_secret': 'L2tiTgDrdwwb9DWtrX19CdbZqYAGsg',
+#         'user_agent': 'AI-lluminati'
+#     }
+#     news_api_key = 'bc6a8428bd6143798ea88348297f44ec'
+
+#     analyzer = EnhancedContentAnalyzer(reddit_credentials, news_api_key)
+#     result = analyzer.analyze_query(query)
+
+#     print(json.dumps(result))
+
+# if __name__ == "__main__":
+#     main()
+
+
+
 
 def main(query):
     # Initialize with credentials
@@ -383,6 +414,6 @@ def main(query):
         print(f"Dominant Emotion: {content['emotions']['emotion']}")
         print(f"URL: {content['url']}")
 
-# if __name__ == "__main__":
-#     query = "Bitcoin"
-#     main(query)
+if __name__ == "__main__":
+    query = "Bitcoin"
+    main(query)
