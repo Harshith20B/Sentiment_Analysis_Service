@@ -31,6 +31,7 @@ reddit_credentials = {
     'user_agent': 'AI-lluminati'
 }
 news_api_key = os.getenv('NEWS_API_KEY')
+gemini_api_key = os.getenv('GEMINI_API_KEY')
 
 if not all(reddit_credentials.values()):
     raise ValueError("Missing Reddit API credentials. Set REDDIT_CLIENT_ID, REDDIT_CLIENT_SECRET, and REDDIT_USER_AGENT.")
@@ -38,7 +39,7 @@ if not all(reddit_credentials.values()):
 if not news_api_key:
     raise ValueError("Missing News API key. Set NEWS_API_KEY.")
 
-analyzer = EnhancedContentAnalyzer(reddit_credentials, news_api_key)
+analyzer = EnhancedContentAnalyzer(reddit_credentials, news_api_key, gemini_api_key)
 
 class PlatformResponse(BaseModel):
     analyzed_content: Any

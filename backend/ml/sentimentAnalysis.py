@@ -11,9 +11,10 @@ from collections import Counter
 import re
 from sklearn.feature_extraction.text import TfidfVectorizer
 from scipy.spatial.distance import cosine
+import google.generativeai as genai
 
 class EnhancedContentAnalyzer:
-    def __init__(self, reddit_credentials, news_api_key):
+    def __init__(self, reddit_credentials, news_api_key, gemini_api_key):
         self.vader = SentimentIntensityAnalyzer()
         self.reddit = praw.Reddit(**reddit_credentials)
         self.news_api_key = news_api_key
@@ -30,6 +31,8 @@ class EnhancedContentAnalyzer:
             range(35, 65): "Neutral",
             range(65, 101): "Positive"
         }
+        genai.configure(api_key = gemini_api_key)
+        self.gemini_model = genai.GenerativeModel("gemini-1.5-flash")
 
     def clean_text(self, text):
         """Enhanced text cleaning with entity and key term retention"""
@@ -252,14 +255,15 @@ class EnhancedContentAnalyzer:
         text_was_truncated = len(all_text) > max_tokens
         
         try:
-            # Generate initial summary
-            initial_summary = self.summarizer(
-                truncated_text,
-                max_length=200,
-                min_length=50,
-                do_sample=False
-            )[0]['summary_text']
-            
+            # Generate summary using Google Gemini
+            prompt = (
+                "Please summarize the following content in 3-5 lines, focusing on the key points. "
+                "Ensure the summary is concise and covers the main aspects of the text."
+                f"\n\n{truncated_text}"
+            )
+            response = self.gemini_model.generate_content(prompt)
+            initial_summary = response.text.strip()
+
             # Analyze emotions in the content
             emotions = [self.analyze_emotions(item['text']) for item in content_items]
             dominant_emotion = Counter(
@@ -289,9 +293,9 @@ class EnhancedContentAnalyzer:
                 f"Trend: {trend_info['trend']} (Confidence: {trend_info['confidence']:.2f})"
             )
             
-            # Append "...." if text was truncated
-            if text_was_truncated:
-                enhanced_summary += " ...."
+            # # Append "...." if text was truncated
+            # if text_was_truncated:
+            #     enhanced_summary += " ...."
             
             return enhanced_summary
         
@@ -329,9 +333,7 @@ class EnhancedContentAnalyzer:
         sentiments = [item['sentiment']['score'] for item in analyzed_content]
         trend = self.predict_trend(sentiments)
         
-        print("Summary:", summary)
-
-        res = {
+        return {
             'summary': summary,
             'analyzed_content': analyzed_content,
             'trend': trend,
@@ -347,35 +349,6 @@ class EnhancedContentAnalyzer:
             }
         }
 
-
-        return res
-
-
-
-# import sys
-# import json
-
-# def main(query):
-#     query = sys.argv[1]
-#     # Replace these with actual credentials
-#     reddit_credentials = {
-#         'client_id': 'dh-pJ2g7bmp5H55tgsth3w',
-#         'client_secret': 'L2tiTgDrdwwb9DWtrX19CdbZqYAGsg',
-#         'user_agent': 'AI-lluminati'
-#     }
-#     news_api_key = 'bc6a8428bd6143798ea88348297f44ec'
-
-#     analyzer = EnhancedContentAnalyzer(reddit_credentials, news_api_key)
-#     result = analyzer.analyze_query(query)
-
-#     print(json.dumps(result))
-
-# if __name__ == "__main__":
-#     main()
-
-
-
-
 def main(query):
     # Initialize with credentials
     reddit_credentials = {
@@ -383,9 +356,10 @@ def main(query):
         'client_secret': 'L2tiTgDrdwwb9DWtrX19CdbZqYAGsg',
         'user_agent': 'AI-lluminati'
     }
-    news_api_key = 'bc6a8428bd6143798ea88348297f44ec'
-    
-    analyzer = EnhancedContentAnalyzer(reddit_credentials, news_api_key)
+    news_api_key = '8e10112cdfa244589e4bf1a5828b7d9a'
+    gemini_api_key = 'AIzaSyDVU6y2yc2di3n88zrNSt0USNErvnJ1STE'
+
+    analyzer = EnhancedContentAnalyzer(reddit_credentials, news_api_key, gemini_api_key)
     
     # Example analysis
     aspects = ["price", "features", "reliability", "support"]
