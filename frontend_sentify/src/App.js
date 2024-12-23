@@ -10,6 +10,7 @@ import ContactUs from './pages/contactUs';
 import AboutUs from './pages/aboutUs';
 import Login from './pages/Login';
 import Signup from './pages/Signup';
+import GeoSentiment from './pages/geoSentiment';
 import { ThemeProvider } from './components/ThemeSwitcher';
 
 const App = () => {
@@ -134,6 +135,7 @@ const App = () => {
                 <Route path="/about" element={<AboutUs />} />
                 <Route path="/login" element={<Login />} />
                 <Route path="/signup" element={<Signup />} />
+                <Route path="/geoSentiment" element={<GeoSentiment />} />
                 <Route path="/platform/:id" element={<PlatformDetails service={selectedService} />} />
               </Routes>
             </main>

@@ -9,18 +9,18 @@ const Login = ({ onLogin }) => {
   const navigate = useNavigate();
 
   const handleLogin = async (e) => {
-    e.preventDefault();
+    // e.preventDefault();
     try {
-      const response = await axios.post("http://localhost:5000/auth/login", {
-        username,
-        password,
-      });
-      localStorage.setItem("token", response.data.token);
-      onLogin(); // Notify App component about login
+    //   const response = await axios.post("http://localhost:5000/auth/login", {
+    //     username,
+    //     password,
+    //   });
+    //   localStorage.setItem("token", response.data.token);
+      //onLogin(); // Notify App component about login
       alert("Login successful");
       navigate("/");
     } catch (error) {
-      alert(error.response?.data?.error || "An error occurred");
+     // alert(error.response?.data?.error || "An error occurred");
     }
   };
 
@@ -78,6 +78,7 @@ const Login = ({ onLogin }) => {
           </div>
 
           <button
+            navigate = "/platform/6763a4edf82e23aef2c296b5"
             type="submit"
             className="w-full bg-blue-600 dark:bg-blue-500 hover:bg-blue-700 dark:hover:bg-blue-600 
                      text-white font-bold py-3 px-4 rounded focus:outline-none focus:ring-2 

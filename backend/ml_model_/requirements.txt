@@ -1,0 +1,5 @@
+google_play_scraper 
+transformers 
+praw 
+vaderSentiment 
+textblob

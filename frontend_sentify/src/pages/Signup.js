@@ -9,13 +9,13 @@ const Signup = () => {
   const navigate = useNavigate();
 
   const handleSignup = async (e) => {
-    e.preventDefault();
+    // e.preventDefault();
     try {
-      await axios.post("http://localhost:5000/auth/signup", { username, password });
-      alert("Signup successful, please login.");
+      // await axios.post("http://localhost:5000/auth/signup", { username, password });
+      // alert("Signup successful, please login.");
       navigate("/login");
     } catch (error) {
-      alert(error.response?.data?.error || "An error occurred");
+      //alert(error.response?.data?.error || "An error occurred");
     }
   };
 

@@ -195,7 +195,7 @@ const ServiceSelector = () => {
           Play Store Analysis
         </button>
         <button
-          onClick={() => navigate('/geographicalAnalysis')}
+          onClick={() => navigate('/geoSentiment')}
           className="w-full md:w-1/3 h-20 px-6 py-4 rounded-lg bg-gradient-to-r from-blue-600 to-pink-100 text-black text-lg font-semibold hover:from-blue-400 hover:to-pink-500 shadow-lg transform hover:scale-105 transition-all duration-300"
         >
           Geographical Analysis

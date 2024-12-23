@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect, useCallback } from 'react';
 import {
   TrendingUp,
@@ -23,19 +22,21 @@ import {
   Cell
 } from 'recharts';
 
-const PlatformDetails = () => {
+const GeoSentiment = () => {
   const [searchInput, setSearchInput] = useState('');
+  const [countryInput, setCountryInput] = useState('');
   const [platformName, setPlatformName] = useState('');
+  const [country, setCountry] = useState('');
   const [platformData, setPlatformData] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
-  const fetchPlatformDetails = useCallback(async (name) => {
-    if (!name.trim()) return;
+  const fetchPlatformDetails = useCallback(async (name, country) => {
+    if (!name.trim() || !country.trim()) return;
     setLoading(true);
     setError(null);
     try {
-      const response = await fetch(`http://localhost:5001/api/platforms/${name}`);
+      const response = await fetch(`http://localhost:5002/api/platforms/${country}/${name}`);
       if (!response.ok) throw new Error('Failed to fetch platform data');
       const data = await response.json();
       setPlatformData(data);
@@ -49,7 +50,8 @@ const PlatformDetails = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     setPlatformName(searchInput);
-    fetchPlatformDetails(searchInput);
+    setCountry(countryInput);
+    fetchPlatformDetails(searchInput, countryInput);
   };
 
   // Calculate metrics from analyzed content
@@ -92,6 +94,19 @@ const PlatformDetails = () => {
       <form onSubmit={handleSubmit} className="relative group">
         <input
           type="text"
+          value={countryInput}
+          onChange={(e) => setCountryInput(e.target.value)}
+          placeholder="Enter country..."
+          className="w-full px-6 py-4 pl-14 rounded-xl border-2 border-gray-200 
+                   dark:border-gray-700 bg-white dark:bg-gray-800 
+                   text-gray-900 dark:text-gray-100 text-lg
+                   focus:ring-2 focus:ring-blue-500 focus:border-transparent
+                   placeholder-gray-400 dark:placeholder-gray-500
+                   transition-all duration-300 ease-in-out
+                   group-hover:border-blue-400 dark:group-hover:border-blue-600 mb-4"
+        />
+        <input
+          type="text"
           value={searchInput}
           onChange={(e) => setSearchInput(e.target.value)}
           placeholder="Enter platform name to analyze..."
@@ -99,16 +114,14 @@ const PlatformDetails = () => {
                    dark:border-gray-700 bg-white dark:bg-gray-800 
                    text-gray-900 dark:text-gray-100 text-lg
                    focus:ring-2 focus:ring-blue-500 focus:border-transparent
-                   placeholder-gray-400 dark:placeholder-gray-500
-                   transition-all duration-300 ease-in-out
-                   group-hover:border-blue-400 dark:group-hover:border-blue-600"
+                   placeholder-gray-400 dark:placeholder-gray-500"
         />
         <Search className="absolute left-5 top-1/2 transform -translate-y-1/2 
                         w-6 h-6 text-gray-400 group-hover:text-blue-500 
                         transition-colors duration-300" />
         <button
           type="submit"
-          disabled={loading || !searchInput.trim()}
+          disabled={loading || !searchInput.trim() || !countryInput.trim()}
           className="absolute right-3 top-1/2 transform -translate-y-1/2
                    px-6 py-2 bg-blue-600 hover:bg-blue-700 
                    text-white rounded-lg flex items-center gap-2 
@@ -350,4 +363,4 @@ const PlatformDetails = () => {
   );
 };
 
-export default PlatformDetails;
+export default GeoSentiment;
