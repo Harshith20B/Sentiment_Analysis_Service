@@ -6,6 +6,7 @@ from ml_model.geolocation_based_analysis import LocationBasedAnalyzer
 from dotenv import load_dotenv
 import os
 import logging
+from vercel_fastapi import VercelMiddleware
 
 # Load environment variables
 load_dotenv()
@@ -22,6 +23,7 @@ app.add_middleware(
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
+    VercelMiddleware
 )
 
 # Initialize Analyzer with credentials
