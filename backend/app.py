@@ -6,6 +6,7 @@ from ml.sentimentAnalysis import EnhancedContentAnalyzer
 from dotenv import load_dotenv
 import os
 import logging
+from vercel_fastapi import VercelMiddleware
 
 # Load environment variables
 load_dotenv()
@@ -22,8 +23,8 @@ app.add_middleware(
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
+    VercelMiddleware
 )
-
 # Initialize Analyzer with credentials
 reddit_credentials = {
     'client_id': os.getenv('REDDIT_CLIENT_ID'),
