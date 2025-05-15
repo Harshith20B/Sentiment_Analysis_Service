@@ -1,5 +1,7 @@
 # Sentify - Sentiment Analysis for Smarter Decisions
 
+[Watch the demo on YouTube](https://www.youtube.com/watch?v=g2xUZMAjRPg)
+
 ## Overview
 Sentify is a sentiment analysis tool that aids in smarter decision-making by summarizing and evaluating reviews, news, and social media posts related to products, apps, or companies. It offers sentiment scores, emotional insights, and impactful content summaries to enhance understanding and efficiency in evaluating products or services.
 
